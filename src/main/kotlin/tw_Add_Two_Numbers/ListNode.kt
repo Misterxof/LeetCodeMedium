@@ -3,7 +3,7 @@ package tw_Add_Two_Numbers
 import java.math.BigInteger
 
 open class ListNode(val head: Array<Int>) {
-     var firstNode: Node
+    var firstNode: Node
     private var size = head.size
 
     init {
@@ -19,6 +19,54 @@ open class ListNode(val head: Array<Int>) {
         return node
     }
 
+    private fun getListNode(list: List<Int>): Node? {
+        var node: Node? = null
+        list.forEach {
+            val nextNode = Node(it.toInt())
+            nextNode.next = node
+            node = nextNode
+        }
+        return node
+    }
+
+    fun getListNodeCircle(nodel: Node, pos: Int): Node? {
+        var node: Node? = nodel
+        var nodeCicle: Node? = null
+        var i = 0
+
+        while (true) {
+            if (i == pos) nodeCicle = node
+
+
+            if (node?.next == null) {
+                node?.data = 999
+                node?.next = nodeCicle
+                break
+            }
+            node = node!!.next
+            i++
+        }
+
+        return node
+    }
+
+    // 142. Linked List Cycle II
+    fun detectCycle(head: Node?): Node? {
+        var node = head
+        var list: MutableList<Node> = mutableListOf()
+
+        while(node != null) {
+            if (list.contains(node))
+                return node
+            else
+                list.add(node!!)
+
+            node = node.next
+        }
+
+        return null
+    }
+
     // 2. Add Two Numbers
     fun addTwoNumbers(l1: Node?, l2: Node?) {
         var l1 = l1
@@ -31,7 +79,7 @@ open class ListNode(val head: Array<Int>) {
             l1 = l1.next
         }
 
-        while ( l2  != null) {
+        while (l2 != null) {
             secondList.add(l2.data)
             l2 = l2.next
         }
@@ -39,11 +87,12 @@ open class ListNode(val head: Array<Int>) {
         val firstNumber = firstList.reversed().joinToString(separator = "").toBigInteger()
         val secondNumber = secondList.reversed().joinToString(separator = "").toBigInteger()
         val resultNumber = firstNumber + secondNumber
-        val r = "$resultNumber".map { it.toString().toBigInteger() }.reversed()    // leetcode will reverse resulted ListNode
+        val r = "$resultNumber".map { it.toString().toBigInteger() }
+            .reversed()    // leetcode will reverse resulted ListNode
     }
 
     // 876. Middle of the Linked List
-    fun getMiddle(): Node{
+    fun getMiddle(): Node {
         val array: MutableList<Node> = mutableListOf()
         var node: Node? = firstNode
 
@@ -155,5 +204,13 @@ open class ListNode(val head: Array<Int>) {
         }
     }
 
-    data class Node(val data: Int, var next: Node? = null)
+    fun print(node: Node) {
+        var nodeTemp: Node = node
+        for (i in 0 until 10) {
+            println(nodeTemp.data)
+            nodeTemp = nodeTemp.next!!
+        }
+    }
+
+    data class Node(var data: Int, var next: Node? = null)   // if node is circled toString will throw Overflow, data class has its own toString
 }
