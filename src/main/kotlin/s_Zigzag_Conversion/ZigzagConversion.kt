@@ -5,21 +5,24 @@ class ZigzagConversion {
         if (numRows == 1) return s
 
         val resAr: Array<String> = Array(numRows) { "" }
-        var result = ""
         val sar: CharArray = s.toCharArray()
-        var row = 0
-        val diag = numRows - 2
-        var position = 0
+        val diag = numRows - 2 // diagonal builds from pre-last element
+        val step = numRows + diag
         var curStep = numRows + diag
-        var step = numRows + diag
-        var curDiag = diag
-        var i = 0
         var isDiag = false
+        var curDiag = diag
+        var position = 0
+        var result = ""
+        var row = 0
+        var i = 0
 
         while (i < s.length) {
 
+            // if rows == 2 just ignore diagonal, isDiag - to build long diagonals
+            // first diagonal on position == numRows, others - position == numRows + step
             if ((position % numRows == 0 && position == numRows) && numRows != 2 ||
                 position % (numRows + curStep) == 0 && position != 0 && numRows != 2 || isDiag) {
+                // update state on first diagonal element
                 if (position != numRows && !isDiag) curStep += step
 
                 if (curDiag > 0) {
@@ -37,10 +40,11 @@ class ZigzagConversion {
 
             } else {
                 if (row == numRows) row = 0
+
                 if (row < numRows) {
                     resAr[row] += sar[i].toString()
-                    row++
                     position++
+                    row++
                     i++
                 }
             }
