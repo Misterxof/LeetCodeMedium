@@ -8,7 +8,7 @@ class PermutationString {
         val s1HashMap: HashMap<Char, Int> = hashMapOf()
         val s2HashMap: HashMap<Char, Int> = hashMapOf()
 
-        // count s1 letters
+        // count s1 letters\
         s1.forEach {
             if (s1HashMap.contains(it))
                 s1HashMap[it] = s1HashMap[it]!! + 1
