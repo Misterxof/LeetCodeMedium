@@ -11,13 +11,13 @@ class LinkedListCycleII {
     // LeetCode solution
     // fun detectCycle(head: ListNode?): ListNode? {
     //        var node = head
-    //        var list: MutableList<ListNode> = mutableListOf()
+    //        var set: HashSet<ListNode> = HashSet()
     //
     //        while(node != null) {
-    //            if (list.contains(node))
+    //            if (!set.add(node))
     //                return node
     //            else
-    //                list.add(node!!)
+    //                set.add(node!!)
     //
     //            node = node.next
     //        }
