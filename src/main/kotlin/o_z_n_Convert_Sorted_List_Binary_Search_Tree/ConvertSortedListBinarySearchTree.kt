@@ -13,31 +13,54 @@ class ConvertSortedListBinarySearchTree {
         var middleIndex = size / 2
         var middle: ListNode? = null
 
-        if (middleIndex != 0 && head != null) {
-            current = head
-
-            while (middleIndex != 0) {
-                current = current!!.next
-                middleIndex--
-                middle = current
-            }
-        } else if (middleIndex == 0 && head != null) {
-            middle = head
-        } else {
-            return null
-        }
+        middle = if (middleIndex != 0 && head != null) {
+            findElement(middleIndex, head)
+        } else head ?: return null
 
         val root = TreeNode(middle!!.`val`)
-        current = head
 
-        while (current != null) {
-            if (current.`val` != root.`val`) {
-                addTreeNode(current.`val`, root)
-            }
-            current = current.next
-        }
+        if (head.next != null) addListNode(root, head, size, true)
 
         return root
+    }
+
+    fun addListNode(root: TreeNode, head: ListNode, size: Int, isFirst: Boolean) {
+        if (head.next == null) addTreeNode(head.`val`, root)
+        else {
+            var current: ListNode? = head
+            var middleIndex = size / 2
+            while (middleIndex != 0) {
+                if (isFirst){
+                    var parent = current
+                    current = current!!.next!!
+                    middleIndex--
+                    if (middleIndex == 0) {
+                        val tail = current.next
+                        parent!!.next = null
+                        addListNode(root, head, size / 2, false)
+                        tail?.let {
+                            addListNode(root, tail!!, (size - size / 2) - 1, false)
+                        }
+                        break
+                    }
+                }
+                else {
+                    var parent = current
+                    current = current!!.next!!
+                    middleIndex--
+                    if (middleIndex == 0) {
+                        addTreeNode(current.`val`, root)
+                        val tail = current.next
+                        parent!!.next = null
+                        addListNode(root, head, size / 2, false)
+                        tail?.let {
+                            addListNode(root, tail!!, (size - size / 2) - 1, false)
+                        }
+                        break
+                    }
+                }
+            }
+        }
     }
 
     fun addTreeNode(`val`: Int, root: TreeNode) {
@@ -63,6 +86,19 @@ class ConvertSortedListBinarySearchTree {
             }
         }
     }
+
+    fun findElement(index: Int, head: ListNode): ListNode {
+        var current = head
+        var index = index
+        var middle: ListNode = ListNode(0)
+
+        while (index != 0) {
+            current = current.next!!
+            index--
+            middle = current
+        }
+        return middle
+    }
 }
 
 class ListNode(var `val`: Int) {
@@ -73,7 +109,6 @@ class ListNode(var `val`: Int) {
 }
 
 fun initializeListNode(intArray: IntArray) : ListNode? {
-    intArray.reverse()
     var root: ListNode? = null
     var i = intArray.lastIndex
 
@@ -100,9 +135,23 @@ fun main() {
     println(root)
     var conv = ConvertSortedListBinarySearchTree().sortedListToBST(root)
     println(conv)
+    println()
 
     root = initializeListNode(intArrayOf())
     println(root)
     conv = ConvertSortedListBinarySearchTree().sortedListToBST(root)
     println(conv)
+    println()
+
+    root = initializeListNode(intArrayOf(0,1,2,3,4,5))
+    println(root)
+    conv = ConvertSortedListBinarySearchTree().sortedListToBST(root)
+    println(conv)
+    println()
+
+    root = initializeListNode(intArrayOf(1, 3))
+    println(root)
+    conv = ConvertSortedListBinarySearchTree().sortedListToBST(root)
+    println(conv)
+    println()
 }
