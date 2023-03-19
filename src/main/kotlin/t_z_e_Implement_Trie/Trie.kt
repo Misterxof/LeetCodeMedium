@@ -34,6 +34,28 @@ class Trie {
         return trieNode.isKey
     }
 
+
+    // 211. Design Add and Search Words Data Structure
+    fun searchWithDots(word: String): Boolean {
+        return searchWithDots(word, 0, root)
+    }
+
+    fun searchWithDots(word: String, index: Int, trieNode: TrieNode): Boolean {
+        if (index == word.length) return trieNode.isKey
+
+        if (word[index] == '.') {
+            trieNode.children.values.forEach {
+                if (searchWithDots(word, index + 1, it))
+                    return true
+            }
+            return false
+        } else {
+            if (!trieNode.children.containsKey(word[index]))
+                return false
+            return searchWithDots(word, index + 1, trieNode.children[word[index]]!!)
+        }
+    }
+
     fun startsWith(prefix: String): Boolean {
         var trieNode = root
 
