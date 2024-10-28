@@ -2,39 +2,32 @@ package t_fi_z_o_Longest_Square_Strel_Array
 
 import java.util.TreeMap
 import java.util.TreeSet
+import kotlin.math.sqrt
 
 class LongestSquareStrelArray {
     fun longestSquareStreak(nums: IntArray): Int {
-//        val res = mutableListOf<TreeSet<Int>>()
-        var result = 0
+        val res = TreeSet<Int>()
+        var max = -1
+        
+        nums.forEach { res.add(it) }
 
-        nums.forEach {
-            val count = streak(nums, it, 1)
-
-            result = if (count > result) count else result
-        }
-
-//        res.forEach {out ->
-//            out.forEach { inner -> print("$inner, ") }
-//            println()
-//        }
-
-        return if (result == 1) -1 else result
-    }
-
-    fun streak(nums: IntArray, num: Int, count: Int): Int {
-        var res = count
-
-        nums.forEach {
-            if (it == (num * num)) {
-                res = streak(nums, it, count + 1)
-                return@forEach
+        res.forEach {
+            var count = 1
+            var num = it
+            while (true) {
+                if (res.contains(num * num) && (num * num) > num) {
+                    count++
+                    num *= num
+                } else break
             }
+            if (max < count) max = count
         }
-        return res
+
+        return if (max == 1) -1 else max
     }
 }
 
 fun main() {
     println(LongestSquareStrelArray().longestSquareStreak(intArrayOf(4, 3, 6, 16, 8, 2)))
+    println(LongestSquareStrelArray().longestSquareStreak(intArrayOf(4,16,256,65536)))
 }
