@@ -13,16 +13,32 @@ class MaximumNumberMovesGrid {
             ints.forEachIndexed { index2, i ->  moves(grid, index, index2, 0) }
         }
 
-        table.forEachIndexed { index, ints ->
-            ints.forEach { print("$it ") }
-            println()
+        for (i in grid.size - 1 downTo 0) {
+            grid[i].forEachIndexed { index2, e ->  moves(grid, i, index2, 0) }
         }
+
+        grid.forEachIndexed { index, ints ->
+            table[index][0] = true
+            ints.forEachIndexed { index2, i ->  moves(grid, index, index2, 0) }
+        }
+
+        for (i in grid.size - 1 downTo 0) {
+            grid[i].forEachIndexed { index2, e ->  moves(grid, i, index2, 0) }
+        }
+
+        grid.forEachIndexed { index, ints ->
+            table[index][0] = true
+            ints.forEachIndexed { index2, i ->  moves(grid, index, index2, 0) }
+        }
+
+        for (i in grid.size - 1 downTo 0) {
+            grid[i].forEachIndexed { index2, e ->  moves(grid, i, index2, 0) }
+        }
+
         return max
     }
 
-    fun moves(grid: Array<IntArray>, row: Int, column: Int, path: Int): Int {
-        var res = path
-
+    fun moves(grid: Array<IntArray>, row: Int, column: Int, path: Int) {
         if (row + 1 <= grid.size - 1 && column + 1 <= grid[row + 1].size - 1 &&
             grid[row + 1][column + 1] > grid[row][column] && table[row][column] != false) {
             table[row+1][column+1] = true
@@ -37,8 +53,6 @@ class MaximumNumberMovesGrid {
             table[row-1][column+1] = true
             if (max < column+1) max = column+1
         }
-
-        return res
     }
 }
 
