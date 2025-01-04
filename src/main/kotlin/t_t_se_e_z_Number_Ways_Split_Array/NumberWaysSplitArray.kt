@@ -29,7 +29,7 @@ class NumberWaysSplitArray {
             if (leftSum[i] >= rightSum[i + 1]) sum++
         }
 
-        return sum
+        return sum.toInt()
     }
 }
 
