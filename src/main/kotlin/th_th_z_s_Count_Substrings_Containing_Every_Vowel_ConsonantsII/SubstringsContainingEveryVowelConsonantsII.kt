@@ -13,11 +13,12 @@ class SubstringsContainingEveryVowelConsonantsII {
                 map[word[i]] = map.getOrDefault(word[i], 0) + 1
             } else c++
 
-            while (map.size == 5 && c == k) {
+            while (map.size == 5 && c > k) {
                 if (vowels.contains(word[j])) {
                     map[word[j]] = map[word[j]]!! - 1
                     if (map[word[j]] == 0) map.remove(word[j])
                 } else c--
+                j++
             }
 
             result += (i - j) + 1
